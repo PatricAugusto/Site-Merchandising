@@ -130,7 +130,9 @@ const MobileNav = styled.nav`
 
 const navLinks = [
   { href: "#sobre", label: "Sobre" },
+  { href: "#como-funciona", label: "Como funciona" },
   { href: "#produtos", label: "Produtos" },
+  { href: "#faq", label: "FAQ" },
   { href: "#contato", label: "Contato" },
 ];
 
