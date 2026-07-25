@@ -7,15 +7,20 @@ import Testimonials from "@/components/sections/Testimonials";
 import FAQ from "@/components/sections/FAQ";
 import FinalCTA from "@/components/sections/FinalCTA";
 import Contact from "@/components/sections/Contact";
+import SectionDivider from "@/components/ui/SectionDivider";
 
 export default function Home() {
   return (
     <>
       <Hero />
+      <SectionDivider color="#F0EDE6" />
       <About />
+      <SectionDivider color="#FAF9F5" flip />
       <HowItWorks />
+      <SectionDivider color="#F0EDE6" />
       <Products />
       <Clients />
+      <SectionDivider color="#F0EDE6" flip />
       <Testimonials />
       <FAQ />
       <FinalCTA />

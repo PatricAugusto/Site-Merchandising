@@ -2,6 +2,7 @@
 
 import styled from "styled-components";
 import { Sparkles, Factory, Truck, Recycle } from "lucide-react";
+import { theme } from "@/styles/theme";
 
 const AboutWrapper = styled.section`
   padding: 6rem 2rem;
@@ -45,9 +46,9 @@ const Grid = styled.div`
   gap: 1.5rem;
 `;
 
-const Card = styled.div`
+const Card = styled.div<{ $offset?: boolean; $radius: string }>`
   padding: 2rem;
-  border-radius: ${({ theme }) => theme.radii.md};
+  border-radius: ${({ $radius }) => $radius};
   background: ${({ theme }) => theme.colors.glass};
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
@@ -58,10 +59,17 @@ const Card = styled.div`
   flex-direction: column;
   gap: 1rem;
 
-  transition: transform 0.25s ease;
+  transform: translateY(${({ $offset }) => ($offset ? "20px" : "0")});
+  transition:
+    transform 0.25s ease,
+    border-radius 0.4s ease;
 
   &:hover {
-    transform: translateY(-4px);
+    transform: translateY(${({ $offset }) => ($offset ? "16px" : "-4px")});
+  }
+
+  @media (max-width: 640px) {
+    transform: none;
   }
 `;
 
@@ -111,6 +119,12 @@ const differentials = [
   },
 ];
 
+const radiusOptions = [
+  theme.radii.organic1,
+  theme.radii.organic2,
+  theme.radii.organic3,
+];
+
 export default function About() {
   return (
     <AboutWrapper id="sobre">
@@ -118,14 +132,18 @@ export default function About() {
         <Eyebrow>Quem somos</Eyebrow>
         <Title>Merchandising pensado como extensão da sua marca</Title>
         <Description>
-          Trabalhamos com empresas que entendem que cada item físico com sua marca
-          é um ponto de contato — e trata cada peça com esse cuidado.
+          Trabalhamos com empresas que entendem que cada item físico com sua
+          marca é um ponto de contato — e trata cada peça com esse cuidado.
         </Description>
       </SectionHeader>
 
       <Grid>
-        {differentials.map(({ icon: Icon, title, text }) => (
-          <Card key={title}>
+        {differentials.map(({ icon: Icon, title, text }, index) => (
+          <Card
+            key={title}
+            $radius={radiusOptions[index % radiusOptions.length]}
+            $offset={index % 2 === 1}
+          >
             <IconWrapper>
               <Icon size={22} />
             </IconWrapper>

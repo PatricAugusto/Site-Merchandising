@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import styled from "styled-components";
+import Image from "next/image";
+import { theme } from "@/styles/theme";
 
 const categories = ["Todos", "Vestuário", "Escritório", "Brindes", "Ecobag"] as const;
 type Category = (typeof categories)[number];
@@ -10,16 +12,20 @@ interface Product {
   name: string;
   category: Exclude<Category, "Todos">;
   description: string;
+  image: string;
 }
 
 const products: Product[] = [
-  { name: "Camiseta Premium", category: "Vestuário", description: "Algodão penteado, estampa personalizada em silk ou DTF." },
-  { name: "Caderno Executivo", category: "Escritório", description: "Capa em couro sintético, gravação a laser da marca." },
-  { name: "Caneca Térmica", category: "Brindes", description: "Aço inox, dupla parede, logo em UV de alta durabilidade." },
-  { name: "Sacola Ecológica", category: "Ecobag", description: "Algodão cru, estampa em serigrafia, produção sustentável." },
-  { name: "Boné Aba Reta", category: "Vestuário", description: "Bordado 3D, ajuste em fivela metálica." },
-  { name: "Squeeze Personalizada", category: "Brindes", description: "Plástico livre de BPA, tampa com trava de segurança." },
+  { name: "Camiseta Premium", category: "Vestuário", description: "Algodão penteado, estampa personalizada em silk ou DTF.", image: "https://images.pexels.com/photos/COLE-ID-1/pexels-photo.jpeg" },
+  { name: "Caderno Executivo", category: "Escritório", description: "Capa em couro sintético, gravação a laser da marca.", image: "https://images.pexels.com/photos/COLE-ID-2/pexels-photo.jpeg" },
+  { name: "Caneca Térmica", category: "Brindes", description: "Aço inox, dupla parede, logo em UV de alta durabilidade.", image: "https://images.pexels.com/photos/COLE-ID-3/pexels-photo.jpeg" },
+  { name: "Sacola Ecológica", category: "Ecobag", description: "Algodão cru, estampa em serigrafia, produção sustentável.", image: "https://images.pexels.com/photos/COLE-ID-4/pexels-photo.jpeg" },
+  { name: "Boné Aba Reta", category: "Vestuário", description: "Bordado 3D, ajuste em fivela metálica.", image: "https://images.pexels.com/photos/COLE-ID-5/pexels-photo.jpeg" },
+  { name: "Squeeze Personalizada", category: "Brindes", description: "Plástico livre de BPA, tampa com trava de segurança.", image: "https://images.pexels.com/photos/COLE-ID-6/pexels-photo.jpeg" },
 ];
+
+// raios orgânicos usados de forma alternada entre os cards
+const radiusOptions = [theme.radii.organic1, theme.radii.organic2, theme.radii.organic3];
 
 const ProductsWrapper = styled.section`
   padding: 6rem 2rem;
@@ -83,33 +89,29 @@ const Grid = styled.div`
   gap: 1.5rem;
 `;
 
-const Card = styled.div`
-  border-radius: ${({ theme }) => theme.radii.md};
+const Card = styled.div<{ $radius: string }>`
+  border-radius: ${({ $radius }) => $radius};
   overflow: hidden;
   background: ${({ theme }) => theme.colors.glass};
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border: 1px solid ${({ theme }) => theme.colors.glassBorder};
   box-shadow: ${({ theme }) => theme.shadows.glass};
-  transition: transform 0.25s ease;
+  transition: transform 0.25s ease, border-radius 0.4s ease;
 
   &:hover {
     transform: translateY(-4px);
   }
 `;
 
-const ImagePlaceholder = styled.div`
+const ImageFrame = styled.div`
+  position: relative;
   height: 180px;
-  background: linear-gradient(
-    135deg,
-    ${({ theme }) => theme.colors.glassStrong},
-    ${({ theme }) => theme.colors.backgroundAlt}
-  );
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.85rem;
-  color: ${({ theme }) => theme.colors.textMuted};
+  width: 100%;
+
+  img {
+    object-fit: cover;
+  }
 `;
 
 const CardBody = styled.div`
@@ -169,16 +171,26 @@ export default function Products() {
       </FilterBar>
 
       <Grid>
-        {filteredProducts.map((product) => (
-          <Card key={product.name}>
-            <ImagePlaceholder>[ imagem do produto ]</ImagePlaceholder>
-            <CardBody>
-              <CategoryBadge>{product.category}</CategoryBadge>
-              <ProductName>{product.name}</ProductName>
-              <ProductDescription>{product.description}</ProductDescription>
-            </CardBody>
-          </Card>
-        ))}
+        {filteredProducts.map((product, index) => {
+          const radius = radiusOptions[index % radiusOptions.length];
+          return (
+            <Card key={product.name} $radius={radius}>
+              <ImageFrame>
+                <Image
+                  src={product.image}
+                  alt={product.name}
+                  fill
+                  sizes="(max-width: 640px) 100vw, 33vw"
+                />
+              </ImageFrame>
+              <CardBody>
+                <CategoryBadge>{product.category}</CategoryBadge>
+                <ProductName>{product.name}</ProductName>
+                <ProductDescription>{product.description}</ProductDescription>
+              </CardBody>
+            </Card>
+          );
+        })}
       </Grid>
     </ProductsWrapper>
   );
