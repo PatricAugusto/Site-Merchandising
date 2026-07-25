@@ -1,17 +1,26 @@
 "use client";
 
 import styled, { keyframes } from "styled-components";
+import Image from "next/image";
+import { MorphBlob } from "@/components/ui/MorphBlob";
 
 const float = keyframes`
-  0%, 100% { transform: translateY(0px) rotate(-3deg); }
-  50% { transform: translateY(-14px) rotate(-1deg); }
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-14px); }
+`;
+
+const morphShape = keyframes`
+  0%, 100% { border-radius: 62% 38% 55% 45% / 45% 55% 42% 58%; }
+  50% { border-radius: 45% 55% 38% 62% / 55% 42% 58% 45%; }
 `;
 
 const HeroWrapper = styled.section`
+  position: relative;
   min-height: 100vh;
   padding: 140px 2rem 4rem;
   max-width: 1280px;
   margin: 0 auto;
+  overflow: hidden;
 
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
@@ -26,6 +35,8 @@ const HeroWrapper = styled.section`
 `;
 
 const TextColumn = styled.div`
+  position: relative;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -77,7 +88,9 @@ const PrimaryButton = styled.a`
   color: #fff;
   font-weight: 600;
   border-radius: ${({ theme }) => theme.radii.sm};
-  transition: background 0.2s ease, transform 0.2s ease;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
 
   &:hover {
     background: ${({ theme }) => theme.colors.primaryHover};
@@ -100,46 +113,49 @@ const SecondaryButton = styled.a`
   }
 `;
 
-const GlassPanel = styled.div`
+const BlobFrame = styled.div`
   position: relative;
-  height: 420px;
-  border-radius: ${({ theme }) => theme.radii.lg};
-  background: ${({ theme }) => theme.colors.glassStrong};
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  z-index: 2;
+  width: 100%;
+  height: 440px;
+  overflow: hidden;
+  animation:
+    ${float} 6s ease-in-out infinite,
+    ${morphShape} 12s ease-in-out infinite;
   border: 1px solid ${({ theme }) => theme.colors.glassBorder};
   box-shadow: ${({ theme }) => theme.shadows.glass};
-  animation: ${float} 6s ease-in-out infinite;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  img {
+    object-fit: cover;
+  }
 
   @media (max-width: 860px) {
-    height: 280px;
+    height: 300px;
     animation: none;
+    border-radius: ${({ theme }) => theme.radii.lg};
   }
-`;
-
-const PanelLabel = styled.span`
-  font-family: ${({ theme }) => theme.fonts.display};
-  font-size: 1rem;
-  color: ${({ theme }) => theme.colors.text};
-  opacity: 0.6;
 `;
 
 export default function Hero() {
   return (
     <HeroWrapper>
+      <MorphBlob $size="360px" style={{ top: "-80px", left: "-100px" }} />
+      <MorphBlob
+        $size="260px"
+        $color="rgba(0, 184, 124, 0.14)"
+        $duration="14s"
+        style={{ bottom: "-60px", right: "20%" }}
+      />
+
       <TextColumn>
         <Eyebrow>Branding aplicado</Eyebrow>
         <Headline>
           Sua marca, em <span>cada objeto</span> que fica na mão do cliente
         </Headline>
         <Subheadline>
-          Desenvolvemos merchandising sob medida — do conceito à produção —
-          pra transformar identidade de marca em algo que as pessoas realmente
-          usam e guardam.
+          Desenvolvemos merchandising sob medida — do conceito à produção — pra
+          transformar identidade de marca em algo que as pessoas realmente usam
+          e guardam.
         </Subheadline>
         <CTAGroup>
           <PrimaryButton href="#contato">Solicitar orçamento</PrimaryButton>
@@ -147,9 +163,15 @@ export default function Hero() {
         </CTAGroup>
       </TextColumn>
 
-      <GlassPanel>
-        <PanelLabel>[ preview de produto ]</PanelLabel>
-      </GlassPanel>
+      <BlobFrame>
+        <Image
+          src="https://images.pexels.com/photos/COLE-O-ID-AQUI/pexels-photo.jpeg"
+          alt="Produtos de merchandising personalizados"
+          fill
+          sizes="(max-width: 860px) 100vw, 40vw"
+          priority
+        />
+      </BlobFrame>
     </HeroWrapper>
   );
 }
