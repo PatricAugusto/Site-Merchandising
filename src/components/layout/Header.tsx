@@ -48,7 +48,7 @@ export default function Header() {
   return (
     <HeaderWrapper>
       <Logo>Merchandising Co.</Logo>
-      <Nav>
+      <Nav aria-label="Navegação principal">
         <a href="#sobre">Sobre</a>
         <a href="#produtos">Produtos</a>
         <a href="#contato">Contato</a>
