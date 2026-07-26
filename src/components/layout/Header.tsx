@@ -14,35 +14,36 @@ const HeaderWrapper = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 2rem;
+  padding: 1.25rem 2rem;
 
-  background: ${({ theme }) => theme.colors.glass};
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid ${({ theme }) => theme.colors.glassBorder};
-  box-shadow: ${({ theme }) => theme.shadows.glass};
+  background: ${({ theme }) => theme.colors.background};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.border};
 `;
 
 const Logo = styled.span`
   font-family: ${({ theme }) => theme.fonts.display};
-  font-size: 1.25rem;
-  font-weight: 700;
+  font-size: 1.4rem;
+  font-weight: 600;
   color: ${({ theme }) => theme.colors.text};
+  letter-spacing: 0.02em;
   z-index: 60;
 `;
 
 const Nav = styled.nav`
   display: flex;
-  gap: 2rem;
+  gap: 0.4rem;
 
   a {
-    font-size: 0.95rem;
+    padding: 0.55rem 1.1rem;
+    border-radius: ${({ theme }) => theme.radii.pill};
+    font-size: 0.9rem;
     font-weight: 500;
     color: ${({ theme }) => theme.colors.textMuted};
-    transition: color 0.2s ease;
+    transition: all 0.2s ease;
 
     &:hover {
-      color: ${({ theme }) => theme.colors.primary};
+      color: ${({ theme }) => theme.colors.text};
+      background: ${({ theme }) => theme.colors.surfaceRaised};
     }
   }
 
@@ -66,28 +67,25 @@ const MenuButton = styled.button`
   }
 `;
 
-/* Fundo escurecido sutil, só pra dar contraste ao card — não é mais o menu em si */
 const Backdrop = styled.div`
   display: none;
-
   @media (max-width: 768px) {
     display: block;
     position: fixed;
     inset: 0;
     z-index: 54;
-    background: rgba(20, 22, 26, 0.25);
-    animation: ${keyframes`from { opacity: 0; } to { opacity: 1; }`} 0.2s ease;
+    background: rgba(0, 0, 0, 0.55);
+    animation: ${keyframes`from{opacity:0} to{opacity:1}`} 0.2s ease;
   }
 `;
 
 const slideIn = keyframes`
-  from { opacity: 0; transform: translateY(-12px) scale(0.98); }
+  from { opacity: 0; transform: translateY(-10px) scale(0.98); }
   to { opacity: 1; transform: translateY(0) scale(1); }
 `;
 
 const FloatingPanel = styled.div`
   display: none;
-
   @media (max-width: 768px) {
     display: flex;
     flex-direction: column;
@@ -100,11 +98,9 @@ const FloatingPanel = styled.div`
     padding: 1.5rem;
     border-radius: ${({ theme }) => theme.radii.md};
 
-    background: rgba(255, 255, 255, 0.75);
-    backdrop-filter: blur(22px);
-    -webkit-backdrop-filter: blur(22px);
-    border: 1px solid ${({ theme }) => theme.colors.glassBorder};
-    box-shadow: 0 12px 40px rgba(31, 38, 135, 0.18);
+    background: ${({ theme }) => theme.colors.surface};
+    border: 1px solid ${({ theme }) => theme.colors.border};
+    box-shadow: ${({ theme }) => theme.shadows.elevated};
 
     animation: ${slideIn} 0.25s ease;
   }
@@ -120,7 +116,6 @@ const MobileNav = styled.nav`
     font-size: 1.05rem;
     font-weight: 600;
     color: ${({ theme }) => theme.colors.text};
-    transition: color 0.2s ease;
 
     &:hover {
       color: ${({ theme }) => theme.colors.primary};

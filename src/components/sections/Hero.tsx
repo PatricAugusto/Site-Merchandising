@@ -1,29 +1,17 @@
 "use client";
 
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import Image from "next/image";
-import { MorphBlob } from "@/components/ui/MorphBlob";
-
-const float = keyframes`
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-14px); }
-`;
-
-const morphShape = keyframes`
-  0%, 100% { border-radius: 62% 38% 55% 45% / 45% 55% 42% 58%; }
-  50% { border-radius: 45% 55% 38% 62% / 55% 42% 58% 45%; }
-`;
+import { Heart } from "lucide-react";
 
 const HeroWrapper = styled.section`
-  position: relative;
   min-height: 100vh;
   padding: 140px 2rem 4rem;
   max-width: 1280px;
   margin: 0 auto;
-  overflow: hidden;
 
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
+  grid-template-columns: 1fr 1.1fr;
   align-items: center;
   gap: 3rem;
 
@@ -35,143 +23,127 @@ const HeroWrapper = styled.section`
 `;
 
 const TextColumn = styled.div`
-  position: relative;
-  z-index: 2;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+
+  @media (max-width: 860px) {
+    align-items: center;
+  }
 `;
 
 const Eyebrow = styled.span`
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: ${({ theme }) => theme.colors.secondary};
+  color: ${({ theme }) => theme.colors.primary};
 `;
 
 const Headline = styled.h1`
   font-size: clamp(2.5rem, 5vw, 4rem);
-  line-height: 1.05;
-  font-weight: 700;
+  line-height: 1.1;
+  font-weight: 600;
   color: ${({ theme }) => theme.colors.text};
-
-  span {
-    color: ${({ theme }) => theme.colors.primary};
-  }
 `;
 
 const Subheadline = styled.p`
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   color: ${({ theme }) => theme.colors.textMuted};
-  max-width: 480px;
+  max-width: 440px;
+  line-height: 1.6;
 
   @media (max-width: 860px) {
     max-width: 100%;
-    margin: 0 auto;
-  }
-`;
-
-const CTAGroup = styled.div`
-  display: flex;
-  gap: 1rem;
-  margin-top: 0.5rem;
-
-  @media (max-width: 860px) {
-    justify-content: center;
   }
 `;
 
 const PrimaryButton = styled.a`
-  padding: 0.9rem 1.75rem;
+  align-self: flex-start;
+  padding: 1rem 2rem;
   background: ${({ theme }) => theme.colors.primary};
-  color: #fff;
+  color: #1a1a1a;
   font-weight: 600;
-  border-radius: ${({ theme }) => theme.radii.sm};
-  transition:
-    background 0.2s ease,
-    transform 0.2s ease;
+  border-radius: ${({ theme }) => theme.radii.pill};
+  transition: background 0.2s ease, transform 0.2s ease;
 
   &:hover {
     background: ${({ theme }) => theme.colors.primaryHover};
     transform: translateY(-2px);
   }
-`;
 
-const SecondaryButton = styled.a`
-  padding: 0.9rem 1.75rem;
-  background: ${({ theme }) => theme.colors.glass};
-  backdrop-filter: blur(12px);
-  border: 1px solid ${({ theme }) => theme.colors.glassBorder};
-  color: ${({ theme }) => theme.colors.text};
-  font-weight: 600;
-  border-radius: ${({ theme }) => theme.radii.sm};
-  transition: transform 0.2s ease;
-
-  &:hover {
-    transform: translateY(-2px);
+  @media (max-width: 860px) {
+    align-self: center;
   }
 `;
 
-const BlobFrame = styled.div`
+const ImageCard = styled.div`
   position: relative;
-  z-index: 2;
-  width: 100%;
-  height: 440px;
+  height: 480px;
+  border-radius: ${({ theme }) => theme.radii.lg};
   overflow: hidden;
-  animation:
-    ${float} 6s ease-in-out infinite,
-    ${morphShape} 12s ease-in-out infinite;
-  border: 1px solid ${({ theme }) => theme.colors.glassBorder};
-  box-shadow: ${({ theme }) => theme.shadows.glass};
+  background: ${({ theme }) => theme.colors.surface};
+  box-shadow: ${({ theme }) => theme.shadows.elevated};
+  border: 1px solid ${({ theme }) => theme.colors.border};
 
   img {
     object-fit: cover;
   }
 
   @media (max-width: 860px) {
-    height: 300px;
-    animation: none;
-    border-radius: ${({ theme }) => theme.radii.lg};
+    height: 320px;
+  }
+`;
+
+const FloatingIcon = styled.button`
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: ${({ theme }) => theme.colors.primary};
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1a1a1a;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.08);
   }
 `;
 
 export default function Hero() {
   return (
     <HeroWrapper>
-      <MorphBlob $size="360px" style={{ top: "-80px", left: "-100px" }} />
-      <MorphBlob
-        $size="260px"
-        $color="rgba(0, 184, 124, 0.14)"
-        $duration="14s"
-        style={{ bottom: "-60px", right: "20%" }}
-      />
-
       <TextColumn>
-        <Eyebrow>Branding aplicado</Eyebrow>
+        <Eyebrow>Nova coleção</Eyebrow>
         <Headline>
-          Sua marca, em <span>cada objeto</span> que fica na mão do cliente
+          Sua marca, em cada objeto que fica na mão do cliente
         </Headline>
         <Subheadline>
-          Desenvolvemos merchandising sob medida — do conceito à produção — pra
-          transformar identidade de marca em algo que as pessoas realmente usam
-          e guardam.
+          Desenvolvemos merchandising sob medida — do conceito à produção —
+          pra transformar identidade de marca em algo que as pessoas
+          realmente usam e guardam.
         </Subheadline>
-        <CTAGroup>
-          <PrimaryButton href="#contato">Solicitar orçamento</PrimaryButton>
-          <SecondaryButton href="#produtos">Ver produtos</SecondaryButton>
-        </CTAGroup>
+        <PrimaryButton href="#contato">Solicitar orçamento</PrimaryButton>
       </TextColumn>
 
-      <BlobFrame>
+      <ImageCard>
         <Image
-          src="https://images.pexels.com/photos/COLE-O-ID-AQUI/pexels-photo.jpeg"
-          alt="Produtos de merchandising personalizados"
+          src="https://images.pexels.com/photos/8532616/pexels-photo-8532616.jpeg"
+          alt="Produto de merchandising em destaque"
           fill
-          sizes="(max-width: 860px) 100vw, 40vw"
+          sizes="(max-width: 860px) 100vw, 50vw"
           priority
         />
-      </BlobFrame>
+        <FloatingIcon aria-label="Favoritar produto">
+          <Heart size={20} />
+        </FloatingIcon>
+      </ImageCard>
     </HeroWrapper>
   );
 }
