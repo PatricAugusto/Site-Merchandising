@@ -25,16 +25,16 @@ const InfoColumn = styled.div`
 `;
 
 const Eyebrow = styled.span`
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: ${({ theme }) => theme.colors.secondary};
+  color: ${({ theme }) => theme.colors.primary};
 `;
 
 const Title = styled.h2`
   font-size: clamp(2rem, 3.5vw, 2.75rem);
-  font-weight: 700;
+  font-weight: 600;
   color: ${({ theme }) => theme.colors.text};
   line-height: 1.15;
 `;
@@ -69,11 +69,9 @@ const InfoItem = styled.div`
 const FormCard = styled.form`
   padding: 2.5rem;
   border-radius: ${({ theme }) => theme.radii.lg};
-  background: ${({ theme }) => theme.colors.glass};
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border: 1px solid ${({ theme }) => theme.colors.glassBorder};
-  box-shadow: ${({ theme }) => theme.shadows.glass};
+  background: ${({ theme }) => theme.colors.surface};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  box-shadow: ${({ theme }) => theme.shadows.elevated};
 
   display: flex;
   flex-direction: column;
@@ -95,42 +93,49 @@ const Label = styled.label`
 const inputStyles = `
   padding: 0.85rem 1rem;
   border-radius: 10px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  background: rgba(255, 255, 255, 0.6);
   font-size: 0.95rem;
   font-family: inherit;
-  color: inherit;
   transition: border-color 0.2s ease, background 0.2s ease;
-
-  &:focus {
-    outline: none;
-    border-color: currentColor;
-    background: rgba(255, 255, 255, 0.85);
-  }
 `;
 
 const Input = styled.input`
   ${inputStyles}
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  background: ${({ theme }) => theme.colors.backgroundAlt};
+  color: ${({ theme }) => theme.colors.text};
+
+  &:focus {
+    outline: none;
+    border-color: ${({ theme }) => theme.colors.primary};
+  }
 `;
 
 const TextArea = styled.textarea`
   ${inputStyles}
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  background: ${({ theme }) => theme.colors.backgroundAlt};
+  color: ${({ theme }) => theme.colors.text};
   resize: vertical;
   min-height: 120px;
+
+  &:focus {
+    outline: none;
+    border-color: ${({ theme }) => theme.colors.primary};
+  }
 `;
 
 const ErrorText = styled.span`
   font-size: 0.8rem;
-  color: #c0392b;
+  color: #e07a5f;
 `;
 
 const SubmitButton = styled.button`
   padding: 0.9rem 1.75rem;
   background: ${({ theme }) => theme.colors.primary};
-  color: #fff;
+  color: #1a1a1a;
   font-weight: 600;
   border: none;
-  border-radius: ${({ theme }) => theme.radii.sm};
+  border-radius: ${({ theme }) => theme.radii.pill};
   cursor: pointer;
   transition: background 0.2s ease, transform 0.2s ease;
 
@@ -148,7 +153,7 @@ const SubmitButton = styled.button`
 
 const SuccessMessage = styled.p`
   font-size: 0.95rem;
-  color: ${({ theme }) => theme.colors.secondary};
+  color: ${({ theme }) => theme.colors.primary};
   font-weight: 600;
 `;
 
@@ -192,13 +197,8 @@ export default function Contact() {
     setIsSubmitting(true);
 
     // TODO: integração futura com Formspree, EmailJS ou API própria.
-    // Exemplo (Formspree): await fetch("https://formspree.io/f/SEU_ID", {
-    //   method: "POST",
-    //   headers: { Accept: "application/json" },
-    //   body: new FormData(e.target as HTMLFormElement),
-    // });
 
-    await new Promise((resolve) => setTimeout(resolve, 800)); // simula envio
+    await new Promise((resolve) => setTimeout(resolve, 800));
 
     setIsSubmitting(false);
     setSubmitted(true);

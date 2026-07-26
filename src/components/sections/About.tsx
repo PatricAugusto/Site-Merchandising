@@ -2,7 +2,6 @@
 
 import styled from "styled-components";
 import { Sparkles, Factory, Truck, Recycle } from "lucide-react";
-import { theme } from "@/styles/theme";
 
 const AboutWrapper = styled.section`
   padding: 6rem 2rem;
@@ -13,23 +12,22 @@ const AboutWrapper = styled.section`
 const SectionHeader = styled.div`
   max-width: 640px;
   margin-bottom: 3.5rem;
-
   display: flex;
   flex-direction: column;
   gap: 1rem;
 `;
 
 const Eyebrow = styled.span`
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: ${({ theme }) => theme.colors.secondary};
+  color: ${({ theme }) => theme.colors.primary};
 `;
 
 const Title = styled.h2`
   font-size: clamp(2rem, 3.5vw, 2.75rem);
-  font-weight: 700;
+  font-weight: 600;
   color: ${({ theme }) => theme.colors.text};
   line-height: 1.15;
 `;
@@ -46,30 +44,22 @@ const Grid = styled.div`
   gap: 1.5rem;
 `;
 
-const Card = styled.div<{ $offset?: boolean; $radius: string }>`
+const Card = styled.div`
   padding: 2rem;
-  border-radius: ${({ $radius }) => $radius};
-  background: ${({ theme }) => theme.colors.glass};
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid ${({ theme }) => theme.colors.glassBorder};
-  box-shadow: ${({ theme }) => theme.shadows.glass};
+  border-radius: ${({ theme }) => theme.radii.md};
+  background: ${({ theme }) => theme.colors.surface};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  box-shadow: ${({ theme }) => theme.shadows.subtle};
 
   display: flex;
   flex-direction: column;
   gap: 1rem;
 
-  transform: translateY(${({ $offset }) => ($offset ? "20px" : "0")});
-  transition:
-    transform 0.25s ease,
-    border-radius 0.4s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 
   &:hover {
-    transform: translateY(${({ $offset }) => ($offset ? "16px" : "-4px")});
-  }
-
-  @media (max-width: 640px) {
-    transform: none;
+    transform: translateY(-4px);
+    box-shadow: ${({ theme }) => theme.shadows.elevated};
   }
 `;
 
@@ -77,11 +67,11 @@ const IconWrapper = styled.div`
   width: 44px;
   height: 44px;
   border-radius: ${({ theme }) => theme.radii.sm};
-  background: ${({ theme }) => theme.colors.primary};
+  background: ${({ theme }) => theme.colors.primarySoft};
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
+  color: ${({ theme }) => theme.colors.primary};
 `;
 
 const CardTitle = styled.h3`
@@ -119,12 +109,6 @@ const differentials = [
   },
 ];
 
-const radiusOptions = [
-  theme.radii.organic1,
-  theme.radii.organic2,
-  theme.radii.organic3,
-];
-
 export default function About() {
   return (
     <AboutWrapper id="sobre">
@@ -132,18 +116,14 @@ export default function About() {
         <Eyebrow>Quem somos</Eyebrow>
         <Title>Merchandising pensado como extensão da sua marca</Title>
         <Description>
-          Trabalhamos com empresas que entendem que cada item físico com sua
-          marca é um ponto de contato — e trata cada peça com esse cuidado.
+          Trabalhamos com empresas que entendem que cada item físico com sua marca
+          é um ponto de contato — e trata cada peça com esse cuidado.
         </Description>
       </SectionHeader>
 
       <Grid>
-        {differentials.map(({ icon: Icon, title, text }, index) => (
-          <Card
-            key={title}
-            $radius={radiusOptions[index % radiusOptions.length]}
-            $offset={index % 2 === 1}
-          >
+        {differentials.map(({ icon: Icon, title, text }) => (
+          <Card key={title}>
             <IconWrapper>
               <Icon size={22} />
             </IconWrapper>

@@ -36,16 +36,16 @@ const SectionHeader = styled.div`
 `;
 
 const Eyebrow = styled.span`
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: ${({ theme }) => theme.colors.secondary};
+  color: ${({ theme }) => theme.colors.primary};
 `;
 
 const Title = styled.h2`
   font-size: clamp(2rem, 3.5vw, 2.75rem);
-  font-weight: 700;
+  font-weight: 600;
   color: ${({ theme }) => theme.colors.text};
   line-height: 1.15;
 `;
@@ -59,11 +59,9 @@ const Grid = styled.div`
 const Card = styled.div`
   padding: 2rem;
   border-radius: ${({ theme }) => theme.radii.md};
-  background: ${({ theme }) => theme.colors.glass};
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid ${({ theme }) => theme.colors.glassBorder};
-  box-shadow: ${({ theme }) => theme.shadows.glass};
+  background: ${({ theme }) => theme.colors.surface};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  box-shadow: ${({ theme }) => theme.shadows.subtle};
 
   display: flex;
   flex-direction: column;
@@ -72,7 +70,6 @@ const Card = styled.div`
 
 const QuoteIcon = styled(Quote)`
   color: ${({ theme }) => theme.colors.primary};
-  opacity: 0.4;
 `;
 
 const QuoteText = styled.p`
@@ -91,8 +88,8 @@ const Avatar = styled.div`
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: ${({ theme }) => theme.colors.secondary};
-  color: #fff;
+  background: ${({ theme }) => theme.colors.primarySoft};
+  color: ${({ theme }) => theme.colors.primary};
   font-weight: 700;
   font-size: 0.85rem;
   display: flex;

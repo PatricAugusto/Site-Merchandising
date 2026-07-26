@@ -26,16 +26,16 @@ const SectionHeader = styled.div`
 `;
 
 const Eyebrow = styled.span`
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: ${({ theme }) => theme.colors.secondary};
+  color: ${({ theme }) => theme.colors.primary};
 `;
 
 const Title = styled.h2`
   font-size: clamp(2rem, 3.5vw, 2.75rem);
-  font-weight: 700;
+  font-weight: 600;
   color: ${({ theme }) => theme.colors.text};
   line-height: 1.15;
 `;
@@ -48,10 +48,8 @@ const List = styled.div`
 
 const Item = styled.div`
   border-radius: ${({ theme }) => theme.radii.md};
-  background: ${({ theme }) => theme.colors.glass};
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid ${({ theme }) => theme.colors.glassBorder};
+  background: ${({ theme }) => theme.colors.surface};
+  border: 1px solid ${({ theme }) => theme.colors.border};
   overflow: hidden;
 `;
 

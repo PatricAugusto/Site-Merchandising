@@ -9,20 +9,11 @@ const Wrapper = styled.section`
 `;
 
 const Banner = styled.div`
-  position: relative;
   padding: 4rem 2rem;
   border-radius: ${({ theme }) => theme.radii.lg};
-  overflow: hidden;
-
-  background: linear-gradient(
-    135deg,
-    ${({ theme }) => theme.colors.glassStrong},
-    ${({ theme }) => theme.colors.backgroundAlt}
-  );
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border: 1px solid ${({ theme }) => theme.colors.glassBorder};
-  box-shadow: ${({ theme }) => theme.shadows.glass};
+  background: ${({ theme }) => theme.colors.surfaceRaised};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  box-shadow: ${({ theme }) => theme.shadows.elevated};
 
   display: flex;
   flex-direction: column;
@@ -33,7 +24,7 @@ const Banner = styled.div`
 
 const Title = styled.h2`
   font-size: clamp(1.75rem, 3vw, 2.5rem);
-  font-weight: 700;
+  font-weight: 600;
   color: ${({ theme }) => theme.colors.text};
   max-width: 560px;
 `;
@@ -47,9 +38,9 @@ const Subtitle = styled.p`
 const CTAButton = styled.a`
   padding: 1rem 2rem;
   background: ${({ theme }) => theme.colors.primary};
-  color: #fff;
+  color: #1a1a1a;
   font-weight: 600;
-  border-radius: ${({ theme }) => theme.radii.sm};
+  border-radius: ${({ theme }) => theme.radii.pill};
   transition: background 0.2s ease, transform 0.2s ease;
 
   &:hover {

@@ -12,9 +12,9 @@ const Wrapper = styled.section`
 
 const Label = styled.p`
   text-align: center;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: ${({ theme }) => theme.colors.textMuted};
   margin-bottom: 2rem;
@@ -31,13 +31,14 @@ const LogoRow = styled.div`
 const Wordmark = styled.span`
   font-family: ${({ theme }) => theme.fonts.display};
   font-size: 1.15rem;
-  font-weight: 700;
+  font-weight: 600;
   color: ${({ theme }) => theme.colors.textMuted};
-  opacity: 0.55;
-  transition: opacity 0.2s ease;
+  opacity: 0.6;
+  transition: all 0.2s ease;
 
   &:hover {
     opacity: 1;
+    color: ${({ theme }) => theme.colors.primary};
   }
 `;
 
