@@ -2,11 +2,16 @@
 
 import styled from "styled-components";
 import { Sparkles, Factory, Truck, Recycle } from "lucide-react";
+import { ScrollReveal } from "@/components/ui/ScrollReveal";
 
 const AboutWrapper = styled.section`
   padding: 6rem 2rem;
   max-width: 1280px;
   margin: 0 auto;
+
+  @media (max-width: 640px) {
+    padding: 4rem 1.25rem;
+  }
 `;
 
 const SectionHeader = styled.div`
@@ -54,6 +59,7 @@ const Card = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  height: 100%;
 
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 
@@ -112,24 +118,28 @@ const differentials = [
 export default function About() {
   return (
     <AboutWrapper id="sobre">
-      <SectionHeader>
-        <Eyebrow>Quem somos</Eyebrow>
-        <Title>Merchandising pensado como extensão da sua marca</Title>
-        <Description>
-          Trabalhamos com empresas que entendem que cada item físico com sua marca
-          é um ponto de contato — e trata cada peça com esse cuidado.
-        </Description>
-      </SectionHeader>
+      <ScrollReveal>
+        <SectionHeader>
+          <Eyebrow>Quem somos</Eyebrow>
+          <Title>Merchandising pensado como extensão da sua marca</Title>
+          <Description>
+            Trabalhamos com empresas que entendem que cada item físico com sua marca
+            é um ponto de contato — e trata cada peça com esse cuidado.
+          </Description>
+        </SectionHeader>
+      </ScrollReveal>
 
       <Grid>
-        {differentials.map(({ icon: Icon, title, text }) => (
-          <Card key={title}>
-            <IconWrapper>
-              <Icon size={22} />
-            </IconWrapper>
-            <CardTitle>{title}</CardTitle>
-            <CardText>{text}</CardText>
-          </Card>
+        {differentials.map(({ icon: Icon, title, text }, index) => (
+          <ScrollReveal key={title} delay={index * 0.1}>
+            <Card>
+              <IconWrapper>
+                <Icon size={22} />
+              </IconWrapper>
+              <CardTitle>{title}</CardTitle>
+              <CardText>{text}</CardText>
+            </Card>
+          </ScrollReveal>
         ))}
       </Grid>
     </AboutWrapper>

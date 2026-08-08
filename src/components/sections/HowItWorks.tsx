@@ -1,18 +1,23 @@
 "use client";
 
 import styled from "styled-components";
+import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { DecorativeDots } from "@/components/ui/illustrations/DecorativeDots";
+import { BriefingIcon, DesignIcon, ProductionIcon, DeliveryIcon } from "@/components/ui/illustrations/StepIcons";
 
 const steps = [
-  { number: "01", title: "Briefing", text: "Entendemos sua marca, objetivo e público antes de sugerir qualquer produto." },
-  { number: "02", title: "Design", text: "Criamos propostas visuais aplicadas aos produtos escolhidos, com ajustes até aprovação." },
-  { number: "03", title: "Produção", text: "Fabricação com acompanhamento de qualidade em cada lote." },
-  { number: "04", title: "Entrega", text: "Envio rastreado para todo o Brasil, dentro do prazo combinado." },
+  { icon: BriefingIcon, number: "01", title: "Briefing", text: "Entendemos sua marca, objetivo e público antes de sugerir qualquer produto." },
+  { icon: DesignIcon, number: "02", title: "Design", text: "Criamos propostas visuais aplicadas aos produtos escolhidos, com ajustes até aprovação." },
+  { icon: ProductionIcon, number: "03", title: "Produção", text: "Fabricação com acompanhamento de qualidade em cada lote." },
+  { icon: DeliveryIcon, number: "04", title: "Entrega", text: "Envio rastreado para todo o Brasil, dentro do prazo combinado." },
 ];
 
 const Wrapper = styled.section`
+  position: relative;
   padding: 6rem 2rem;
   max-width: 1280px;
   margin: 0 auto;
+  overflow: hidden;
 `;
 
 const SectionHeader = styled.div`
@@ -57,14 +62,18 @@ const StepCard = styled.div`
 
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.9rem;
+`;
+
+const IconWrapper = styled.div`
+  color: ${({ theme }) => theme.colors.primary};
 `;
 
 const Number = styled.span`
   font-family: ${({ theme }) => theme.fonts.display};
-  font-size: 2.25rem;
+  font-size: 1.5rem;
   font-weight: 700;
-  color: ${({ theme }) => theme.colors.primary};
+  color: ${({ theme }) => theme.colors.textMuted};
 `;
 
 const StepTitle = styled.h3`
@@ -82,18 +91,27 @@ const StepText = styled.p`
 export default function HowItWorks() {
   return (
     <Wrapper id="como-funciona">
-      <SectionHeader>
-        <Eyebrow>Processo</Eyebrow>
-        <Title>Do briefing à entrega, sem surpresas</Title>
-      </SectionHeader>
+      <DecorativeDots color="#D9A94E" opacity={0.08} style={{ top: "-40px", right: "-60px" }} />
+
+      <ScrollReveal>
+        <SectionHeader>
+          <Eyebrow>Processo</Eyebrow>
+          <Title>Do briefing à entrega, sem surpresas</Title>
+        </SectionHeader>
+      </ScrollReveal>
 
       <StepsRow>
-        {steps.map((step) => (
-          <StepCard key={step.number}>
-            <Number>{step.number}</Number>
-            <StepTitle>{step.title}</StepTitle>
-            <StepText>{step.text}</StepText>
-          </StepCard>
+        {steps.map((step, index) => (
+          <ScrollReveal key={step.number} delay={index * 0.1}>
+            <StepCard>
+              <IconWrapper>
+                <step.icon size={36} />
+              </IconWrapper>
+              <Number>{step.number}</Number>
+              <StepTitle>{step.title}</StepTitle>
+              <StepText>{step.text}</StepText>
+            </StepCard>
+          </ScrollReveal>
         ))}
       </StepsRow>
     </Wrapper>

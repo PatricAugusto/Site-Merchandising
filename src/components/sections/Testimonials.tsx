@@ -2,6 +2,7 @@
 
 import styled from "styled-components";
 import { Quote } from "lucide-react";
+import { ScrollReveal } from "@/components/ui/ScrollReveal";
 
 const testimonials = [
   {
@@ -25,6 +26,10 @@ const Wrapper = styled.section`
   padding: 6rem 2rem;
   max-width: 1280px;
   margin: 0 auto;
+
+  @media (max-width: 640px) {
+    padding: 4rem 1.25rem;
+  }
 `;
 
 const SectionHeader = styled.div`
@@ -66,6 +71,7 @@ const Card = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+  height: 100%;
 `;
 
 const QuoteIcon = styled(Quote)`
@@ -82,6 +88,7 @@ const Author = styled.div`
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  margin-top: auto;
 `;
 
 const Avatar = styled.div`
@@ -125,24 +132,28 @@ function getInitials(name: string) {
 export default function Testimonials() {
   return (
     <Wrapper>
-      <SectionHeader>
-        <Eyebrow>Depoimentos</Eyebrow>
-        <Title>Quem já usou, recomenda</Title>
-      </SectionHeader>
+      <ScrollReveal>
+        <SectionHeader>
+          <Eyebrow>Depoimentos</Eyebrow>
+          <Title>Quem já usou, recomenda</Title>
+        </SectionHeader>
+      </ScrollReveal>
 
       <Grid>
-        {testimonials.map((t) => (
-          <Card key={t.name}>
-            <QuoteIcon size={28} />
-            <QuoteText>{t.quote}</QuoteText>
-            <Author>
-              <Avatar>{getInitials(t.name)}</Avatar>
-              <AuthorInfo>
-                <Name>{t.name}</Name>
-                <Role>{t.role}</Role>
-              </AuthorInfo>
-            </Author>
-          </Card>
+        {testimonials.map((t, index) => (
+          <ScrollReveal key={t.name} delay={index * 0.1}>
+            <Card>
+              <QuoteIcon size={28} />
+              <QuoteText>{t.quote}</QuoteText>
+              <Author>
+                <Avatar>{getInitials(t.name)}</Avatar>
+                <AuthorInfo>
+                  <Name>{t.name}</Name>
+                  <Role>{t.role}</Role>
+                </AuthorInfo>
+              </Author>
+            </Card>
+          </ScrollReveal>
         ))}
       </Grid>
     </Wrapper>

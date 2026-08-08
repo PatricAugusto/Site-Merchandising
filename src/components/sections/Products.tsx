@@ -3,6 +3,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import Image from "next/image";
+import { ScrollReveal } from "@/components/ui/ScrollReveal";
 
 const categories = ["Todos", "Vestuário", "Escritório", "Brindes", "Ecobag"] as const;
 type Category = (typeof categories)[number];
@@ -27,6 +28,10 @@ const ProductsWrapper = styled.section`
   padding: 6rem 2rem;
   max-width: 1280px;
   margin: 0 auto;
+
+  @media (max-width: 640px) {
+    padding: 4rem 1.25rem;
+  }
 `;
 
 const SectionHeader = styled.div`
@@ -89,6 +94,7 @@ const Card = styled.div`
   border: 1px solid ${({ theme }) => theme.colors.border};
   box-shadow: ${({ theme }) => theme.shadows.subtle};
   transition: transform 0.25s ease, box-shadow 0.25s ease;
+  height: 100%;
 
   &:hover {
     transform: translateY(-4px);
@@ -145,10 +151,12 @@ export default function Products() {
 
   return (
     <ProductsWrapper id="produtos">
-      <SectionHeader>
-        <Eyebrow>Catálogo</Eyebrow>
-        <Title>Peças que carregam sua marca no dia a dia</Title>
-      </SectionHeader>
+      <ScrollReveal>
+        <SectionHeader>
+          <Eyebrow>Catálogo</Eyebrow>
+          <Title>Peças que carregam sua marca no dia a dia</Title>
+        </SectionHeader>
+      </ScrollReveal>
 
       <FilterBar>
         {categories.map((category) => (
@@ -163,22 +171,24 @@ export default function Products() {
       </FilterBar>
 
       <Grid>
-        {filteredProducts.map((product) => (
-          <Card key={product.name}>
-            <ImageFrame>
-              <Image
-                src={product.image}
-                alt={product.name}
-                fill
-                sizes="(max-width: 640px) 100vw, 33vw"
-              />
-            </ImageFrame>
-            <CardBody>
-              <CategoryBadge>{product.category}</CategoryBadge>
-              <ProductName>{product.name}</ProductName>
-              <ProductDescription>{product.description}</ProductDescription>
-            </CardBody>
-          </Card>
+        {filteredProducts.map((product, index) => (
+          <ScrollReveal key={product.name} delay={(index % 3) * 0.1}>
+            <Card>
+              <ImageFrame>
+                <Image
+                  src={product.image}
+                  alt={product.name}
+                  fill
+                  sizes="(max-width: 640px) 100vw, 33vw"
+                />
+              </ImageFrame>
+              <CardBody>
+                <CategoryBadge>{product.category}</CategoryBadge>
+                <ProductName>{product.name}</ProductName>
+                <ProductDescription>{product.description}</ProductDescription>
+              </CardBody>
+            </Card>
+          </ScrollReveal>
         ))}
       </Grid>
     </ProductsWrapper>

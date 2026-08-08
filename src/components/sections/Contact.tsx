@@ -3,6 +3,7 @@
 import { useState, FormEvent } from "react";
 import styled from "styled-components";
 import { Mail, Phone, MapPin } from "lucide-react";
+import { ScrollReveal } from "@/components/ui/ScrollReveal";
 
 const ContactWrapper = styled.section`
   padding: 6rem 2rem;
@@ -222,75 +223,79 @@ export default function Contact() {
 
   return (
     <ContactWrapper id="contato">
-      <InfoColumn>
-        <Eyebrow>Contato</Eyebrow>
-        <Title>Vamos colocar sua marca em movimento</Title>
-        <Description>
-          Conte um pouco sobre o projeto e retornamos com uma proposta
-          personalizada em até 1 dia útil.
-        </Description>
+      <ScrollReveal>
+        <InfoColumn>
+          <Eyebrow>Contato</Eyebrow>
+          <Title>Vamos colocar sua marca em movimento</Title>
+          <Description>
+            Conte um pouco sobre o projeto e retornamos com uma proposta
+            personalizada em até 1 dia útil.
+          </Description>
 
-        <InfoList>
-          <InfoItem>
-            <Mail size={18} />
-            contato@merchandisingco.com.br
-          </InfoItem>
-          <InfoItem>
-            <Phone size={18} />
-            (11) 4000-0000
-          </InfoItem>
-          <InfoItem>
-            <MapPin size={18} />
-            São Paulo, SP
-          </InfoItem>
-        </InfoList>
-      </InfoColumn>
+          <InfoList>
+            <InfoItem>
+              <Mail size={18} />
+              contato@merchandisingco.com.br
+            </InfoItem>
+            <InfoItem>
+              <Phone size={18} />
+              (11) 4000-0000
+            </InfoItem>
+            <InfoItem>
+              <MapPin size={18} />
+              São Paulo, SP
+            </InfoItem>
+          </InfoList>
+        </InfoColumn>
+      </ScrollReveal>
 
-      <FormCard onSubmit={handleSubmit} noValidate>
-        {submitted ? (
-          <SuccessMessage>
-            Mensagem enviada! Entraremos em contato em breve.
-          </SuccessMessage>
-        ) : (
-          <>
-            <Field>
-              <Label htmlFor="name">Nome</Label>
-              <Input
-                id="name"
-                type="text"
-                value={form.name}
-                onChange={(e) => setForm({ ...form, name: e.target.value })}
-              />
-              {errors.name && <ErrorText>{errors.name}</ErrorText>}
-            </Field>
+      <ScrollReveal delay={0.15}>
+        <FormCard onSubmit={handleSubmit} noValidate>
+          {submitted ? (
+            <SuccessMessage>
+              Mensagem enviada! Entraremos em contato em breve.
+            </SuccessMessage>
+          ) : (
+            <>
+              <Field>
+                <Label htmlFor="name">Nome</Label>
+                <Input
+                  id="name"
+                  type="text"
+                  value={form.name}
+                  onChange={(e) => setForm({ ...form, name: e.target.value })}
+                />
+                {errors.name && <ErrorText>{errors.name}</ErrorText>}
+              </Field>
 
-            <Field>
-              <Label htmlFor="email">E-mail</Label>
-              <Input
-                id="email"
-                type="email"
-                value={form.email}
-                onChange={(e) => setForm({ ...form, email: e.target.value })}
-              />
-              {errors.email && <ErrorText>{errors.email}</ErrorText>}
-            </Field>
+              <Field>
+                <Label htmlFor="email">E-mail</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  value={form.email}
+                  onChange={(e) => setForm({ ...form, email: e.target.value })}
+                />
+                {errors.email && <ErrorText>{errors.email}</ErrorText>}
+              </Field>
 
-            <Field>
-              <Label htmlFor="message">Mensagem</Label>
-              <TextArea
-                id="message"
-                value={form.message}
-                onChange={(e) => setForm({ ...form, message: e.target.value })}
-              />
-              {errors.message && <ErrorText>{errors.message}</ErrorText>}
-            </Field>
+              <Field>
+                <Label htmlFor="message">Mensagem</Label>
+                <TextArea
+                  id="message"
+                  value={form.message}
+                  onChange={(e) => setForm({ ...form, message: e.target.value })}
+                />
+                {errors.message && <ErrorText>{errors.message}</ErrorText>}
+              </Field>
 
-            <SubmitButton type="submit" disabled={isSubmitting}>
-              {isSubmitting ? "Enviando..." : "Enviar mensagem"}
-            </SubmitButton>
-          </>
-        )}
-      </FormCard>
+              <SubmitButton type="submit" disabled={isSubmitting}>
+                {isSubmitting ? "Enviando..." : "Enviar mensagem"}
+              </SubmitButton>
+            </>
+          )}
+        </FormCard>
+      </ScrollReveal>
     </ContactWrapper>
   );
 }

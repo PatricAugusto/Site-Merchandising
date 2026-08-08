@@ -3,6 +3,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { ChevronDown } from "lucide-react";
+import { ScrollReveal } from "@/components/ui/ScrollReveal";
 
 const faqs = [
   { question: "Qual a quantidade mínima de pedido?", answer: "Trabalhamos a partir de 50 unidades por item, variando conforme o produto e a técnica de personalização." },
@@ -16,6 +17,10 @@ const Wrapper = styled.section`
   padding: 6rem 2rem;
   max-width: 860px;
   margin: 0 auto;
+
+  @media (max-width: 640px) {
+    padding: 4rem 1.25rem;
+  }
 `;
 
 const SectionHeader = styled.div`
@@ -104,33 +109,37 @@ export default function FAQ() {
 
   return (
     <Wrapper id="faq">
-      <SectionHeader>
-        <Eyebrow>Dúvidas frequentes</Eyebrow>
-        <Title>Perguntas que recebemos com frequência</Title>
-      </SectionHeader>
+      <ScrollReveal>
+        <SectionHeader>
+          <Eyebrow>Dúvidas frequentes</Eyebrow>
+          <Title>Perguntas que recebemos com frequência</Title>
+        </SectionHeader>
+      </ScrollReveal>
 
-      <List>
-        {faqs.map((faq, index) => {
-          const isOpen = openIndex === index;
-          return (
-            <Item key={faq.question}>
-              <QuestionButton
-                onClick={() => toggle(index)}
-                aria-expanded={isOpen}
-                aria-controls={`faq-answer-${index}`}
-              >
-                {faq.question}
-                <ChevronIcon size={20} $open={isOpen} />
-              </QuestionButton>
-              <AnswerWrapper $open={isOpen} id={`faq-answer-${index}`}>
-                <AnswerInner>
-                  <AnswerText>{faq.answer}</AnswerText>
-                </AnswerInner>
-              </AnswerWrapper>
-            </Item>
-          );
-        })}
-      </List>
+      <ScrollReveal delay={0.1}>
+        <List>
+          {faqs.map((faq, index) => {
+            const isOpen = openIndex === index;
+            return (
+              <Item key={faq.question}>
+                <QuestionButton
+                  onClick={() => toggle(index)}
+                  aria-expanded={isOpen}
+                  aria-controls={`faq-answer-${index}`}
+                >
+                  {faq.question}
+                  <ChevronIcon size={20} $open={isOpen} />
+                </QuestionButton>
+                <AnswerWrapper $open={isOpen} id={`faq-answer-${index}`}>
+                  <AnswerInner>
+                    <AnswerText>{faq.answer}</AnswerText>
+                  </AnswerInner>
+                </AnswerWrapper>
+              </Item>
+            );
+          })}
+        </List>
+      </ScrollReveal>
     </Wrapper>
   );
 }
