@@ -3,6 +3,7 @@
 import styled from "styled-components";
 import Image from "next/image";
 import { Heart } from "lucide-react";
+import { Tooltip } from "@/components/ui/Tooltip";
 
 const HeroWrapper = styled.section`
   min-height: 100vh;
@@ -65,7 +66,9 @@ const PrimaryButton = styled.a`
   color: #1a1a1a;
   font-weight: 600;
   border-radius: ${({ theme }) => theme.radii.pill};
-  transition: background 0.2s ease, transform 0.2s ease;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
 
   &:hover {
     background: ${({ theme }) => theme.colors.primaryHover};
@@ -125,9 +128,9 @@ export default function Hero() {
           Sua marca, em cada objeto que fica na mão do cliente
         </Headline>
         <Subheadline>
-          Desenvolvemos merchandising sob medida — do conceito à produção —
-          pra transformar identidade de marca em algo que as pessoas
-          realmente usam e guardam.
+          Desenvolvemos merchandising sob medida — do conceito à produção — pra
+          transformar identidade de marca em algo que as pessoas realmente usam
+          e guardam.
         </Subheadline>
         <PrimaryButton href="#contato">Solicitar orçamento</PrimaryButton>
       </TextColumn>
@@ -140,9 +143,11 @@ export default function Hero() {
           sizes="(max-width: 860px) 100vw, 50vw"
           priority
         />
-        <FloatingIcon aria-label="Favoritar produto">
-          <Heart size={20} />
-        </FloatingIcon>
+        <Tooltip label="Favoritar produto">
+          <FloatingIcon aria-label="Favoritar produto">
+            <Heart size={20} />
+          </FloatingIcon>
+        </Tooltip>
       </ImageCard>
     </HeroWrapper>
   );

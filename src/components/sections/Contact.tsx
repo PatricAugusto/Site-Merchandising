@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, FormEvent } from "react";
-import styled from "styled-components";
-import { Mail, Phone, MapPin } from "lucide-react";
+import styled, { keyframes } from "styled-components";
+import { Mail, Phone, MapPin, CheckCircle2 } from "lucide-react";
+import * as Toast from "@radix-ui/react-toast";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 
 const ContactWrapper = styled.section`
@@ -62,7 +63,6 @@ const InfoItem = styled.div`
   gap: 0.75rem;
   color: ${({ theme }) => theme.colors.text};
   font-size: 0.95rem;
-
   word-break: break-word;
   overflow-wrap: anywhere;
 
@@ -167,10 +167,72 @@ const SubmitButton = styled.button`
   }
 `;
 
-const SuccessMessage = styled.p`
-  font-size: 0.95rem;
+const slideIn = keyframes`
+  from { transform: translateX(calc(100% + 1.5rem)); }
+  to { transform: translateX(0); }
+`;
+
+const swipeOut = keyframes`
+  from { transform: translateX(var(--radix-toast-swipe-end-x)); }
+  to { transform: translateX(calc(100% + 1.5rem)); }
+`;
+
+const ToastRoot = styled(Toast.Root)`
+  background: ${({ theme }) => theme.colors.surfaceRaised};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: ${({ theme }) => theme.radii.md};
+  box-shadow: ${({ theme }) => theme.shadows.elevated};
+  padding: 1rem 1.25rem;
+
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+
+  &[data-state="open"] {
+    animation: ${slideIn} 0.25s ease;
+  }
+  &[data-state="closed"] {
+    animation: ${swipeOut} 0.2s ease;
+  }
+  &[data-swipe="move"] {
+    transform: translateX(var(--radix-toast-swipe-move-x));
+  }
+`;
+
+const ToastIcon = styled(CheckCircle2)`
   color: ${({ theme }) => theme.colors.primary};
+  flex-shrink: 0;
+  margin-top: 2px;
+`;
+
+const ToastTextGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+`;
+
+const ToastTitle = styled(Toast.Title)`
+  font-size: 0.95rem;
   font-weight: 600;
+  color: ${({ theme }) => theme.colors.text};
+`;
+
+const ToastDescription = styled(Toast.Description)`
+  font-size: 0.85rem;
+  color: ${({ theme }) => theme.colors.textMuted};
+`;
+
+const ToastViewport = styled(Toast.Viewport)`
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: min(360px, calc(100vw - 2rem));
+  list-style: none;
+  outline: none;
 `;
 
 interface FormState {
@@ -188,8 +250,8 @@ interface FormErrors {
 export default function Contact() {
   const [form, setForm] = useState<FormState>({ name: "", email: "", message: "" });
   const [errors, setErrors] = useState<FormErrors>({});
-  const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [toastOpen, setToastOpen] = useState(false);
 
   function validate(): boolean {
     const newErrors: FormErrors = {};
@@ -217,85 +279,88 @@ export default function Contact() {
     await new Promise((resolve) => setTimeout(resolve, 800));
 
     setIsSubmitting(false);
-    setSubmitted(true);
     setForm({ name: "", email: "", message: "" });
+    setToastOpen(true);
   }
 
   return (
-    <ContactWrapper id="contato">
-      <ScrollReveal>
-        <InfoColumn>
-          <Eyebrow>Contato</Eyebrow>
-          <Title>Vamos colocar sua marca em movimento</Title>
-          <Description>
-            Conte um pouco sobre o projeto e retornamos com uma proposta
-            personalizada em até 1 dia útil.
-          </Description>
+    <Toast.Provider swipeDirection="right" duration={5000}>
+      <ContactWrapper id="contato">
+        <ScrollReveal>
+          <InfoColumn>
+            <Eyebrow>Contato</Eyebrow>
+            <Title>Vamos colocar sua marca em movimento</Title>
+            <Description>
+              Conte um pouco sobre o projeto e retornamos com uma proposta
+              personalizada em até 1 dia útil.
+            </Description>
 
-          <InfoList>
-            <InfoItem>
-              <Mail size={18} />
-              contato@merchandisingco.com.br
-            </InfoItem>
-            <InfoItem>
-              <Phone size={18} />
-              (11) 4000-0000
-            </InfoItem>
-            <InfoItem>
-              <MapPin size={18} />
-              São Paulo, SP
-            </InfoItem>
-          </InfoList>
-        </InfoColumn>
-      </ScrollReveal>
+            <InfoList>
+              <InfoItem>
+                <Mail size={18} />
+                contato@merchandisingco.com.br
+              </InfoItem>
+              <InfoItem>
+                <Phone size={18} />
+                (11) 4000-0000
+              </InfoItem>
+              <InfoItem>
+                <MapPin size={18} />
+                São Paulo, SP
+              </InfoItem>
+            </InfoList>
+          </InfoColumn>
+        </ScrollReveal>
 
-      <ScrollReveal delay={0.15}>
-        <FormCard onSubmit={handleSubmit} noValidate>
-          {submitted ? (
-            <SuccessMessage>
-              Mensagem enviada! Entraremos em contato em breve.
-            </SuccessMessage>
-          ) : (
-            <>
-              <Field>
-                <Label htmlFor="name">Nome</Label>
-                <Input
-                  id="name"
-                  type="text"
-                  value={form.name}
-                  onChange={(e) => setForm({ ...form, name: e.target.value })}
-                />
-                {errors.name && <ErrorText>{errors.name}</ErrorText>}
-              </Field>
+        <ScrollReveal delay={0.15}>
+          <FormCard onSubmit={handleSubmit} noValidate>
+            <Field>
+              <Label htmlFor="name">Nome</Label>
+              <Input
+                id="name"
+                type="text"
+                value={form.name}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
+              />
+              {errors.name && <ErrorText>{errors.name}</ErrorText>}
+            </Field>
 
-              <Field>
-                <Label htmlFor="email">E-mail</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  value={form.email}
-                  onChange={(e) => setForm({ ...form, email: e.target.value })}
-                />
-                {errors.email && <ErrorText>{errors.email}</ErrorText>}
-              </Field>
+            <Field>
+              <Label htmlFor="email">E-mail</Label>
+              <Input
+                id="email"
+                type="email"
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+              />
+              {errors.email && <ErrorText>{errors.email}</ErrorText>}
+            </Field>
 
-              <Field>
-                <Label htmlFor="message">Mensagem</Label>
-                <TextArea
-                  id="message"
-                  value={form.message}
-                  onChange={(e) => setForm({ ...form, message: e.target.value })}
-                />
-                {errors.message && <ErrorText>{errors.message}</ErrorText>}
-              </Field>
+            <Field>
+              <Label htmlFor="message">Mensagem</Label>
+              <TextArea
+                id="message"
+                value={form.message}
+                onChange={(e) => setForm({ ...form, message: e.target.value })}
+              />
+              {errors.message && <ErrorText>{errors.message}</ErrorText>}
+            </Field>
 
-              <SubmitButton type="submit" disabled={isSubmitting}>
-                {isSubmitting ? "Enviando..." : "Enviar mensagem"}
-              </SubmitButton>
-            </>
-          )}
-        </FormCard>
-      </ScrollReveal>
-    </ContactWrapper>
+            <SubmitButton type="submit" disabled={isSubmitting}>
+              {isSubmitting ? "Enviando..." : "Enviar mensagem"}
+            </SubmitButton>
+          </FormCard>
+        </ScrollReveal>
+      </ContactWrapper>
+
+      <ToastRoot open={toastOpen} onOpenChange={setToastOpen}>
+        <ToastIcon size={20} />
+        <ToastTextGroup>
+          <ToastTitle>Mensagem enviada!</ToastTitle>
+          <ToastDescription>Entraremos em contato em breve.</ToastDescription>
+        </ToastTextGroup>
+      </ToastRoot>
+      <ToastViewport />
+    </Toast.Provider>
   );
 }

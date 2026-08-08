@@ -1,16 +1,16 @@
 "use client";
 
-import { useState } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+import * as Accordion from "@radix-ui/react-accordion";
 import { ChevronDown } from "lucide-react";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 
 const faqs = [
-  { question: "Qual a quantidade mínima de pedido?", answer: "Trabalhamos a partir de 50 unidades por item, variando conforme o produto e a técnica de personalização." },
-  { question: "Quanto tempo leva a produção?", answer: "Prazo médio de 10 a 20 dias úteis após aprovação da arte, dependendo do volume e complexidade do produto." },
-  { question: "Vocês enviam amostra antes da produção em lote?", answer: "Sim, para pedidos acima de 500 unidades produzimos uma amostra física para aprovação antes de seguir com o lote completo." },
-  { question: "É possível personalizar com logo em mais de uma cor?", answer: "Sim, dependendo da técnica (serigrafia, DTF, bordado, gravação a laser) conseguimos aplicar múltiplas cores sem custo adicional significativo." },
-  { question: "Atendem todo o Brasil?", answer: "Sim, produção centralizada em São Paulo com envio rastreado para todos os estados." },
+  { id: "min-order", question: "Qual a quantidade mínima de pedido?", answer: "Trabalhamos a partir de 50 unidades por item, variando conforme o produto e a técnica de personalização." },
+  { id: "lead-time", question: "Quanto tempo leva a produção?", answer: "Prazo médio de 10 a 20 dias úteis após aprovação da arte, dependendo do volume e complexidade do produto." },
+  { id: "sample", question: "Vocês enviam amostra antes da produção em lote?", answer: "Sim, para pedidos acima de 500 unidades produzimos uma amostra física para aprovação antes de seguir com o lote completo." },
+  { id: "colors", question: "É possível personalizar com logo em mais de uma cor?", answer: "Sim, dependendo da técnica (serigrafia, DTF, bordado, gravação a laser) conseguimos aplicar múltiplas cores sem custo adicional significativo." },
+  { id: "coverage", question: "Atendem todo o Brasil?", answer: "Sim, produção centralizada em São Paulo com envio rastreado para todos os estados." },
 ];
 
 const Wrapper = styled.section`
@@ -45,25 +45,30 @@ const Title = styled.h2`
   line-height: 1.15;
 `;
 
-const List = styled.div`
+const List = styled(Accordion.Root)`
   display: flex;
   flex-direction: column;
   gap: 1rem;
 `;
 
-const Item = styled.div`
+const Item = styled(Accordion.Item)`
   border-radius: ${({ theme }) => theme.radii.md};
   background: ${({ theme }) => theme.colors.surface};
   border: 1px solid ${({ theme }) => theme.colors.border};
   overflow: hidden;
 `;
 
-const QuestionButton = styled.button`
+const Header = styled(Accordion.Header)`
+  all: unset;
+  display: flex;
+`;
+
+const Trigger = styled(Accordion.Trigger)`
+  all: unset;
   width: 100%;
   padding: 1.25rem 1.5rem;
-  background: none;
-  border: none;
   cursor: pointer;
+  box-sizing: border-box;
 
   display: flex;
   align-items: center;
@@ -74,23 +79,42 @@ const QuestionButton = styled.button`
   font-weight: 600;
   color: ${({ theme }) => theme.colors.text};
   text-align: left;
+
+  &:focus-visible {
+    outline: 2px solid ${({ theme }) => theme.colors.primary};
+    outline-offset: -2px;
+  }
+
+  svg {
+    flex-shrink: 0;
+    color: ${({ theme }) => theme.colors.primary};
+    transition: transform 0.25s ease;
+  }
+
+  &[data-state="open"] svg {
+    transform: rotate(180deg);
+  }
 `;
 
-const ChevronIcon = styled(ChevronDown)<{ $open: boolean }>`
-  flex-shrink: 0;
-  color: ${({ theme }) => theme.colors.primary};
-  transition: transform 0.25s ease;
-  transform: rotate(${({ $open }) => ($open ? "180deg" : "0deg")});
+const slideDown = keyframes`
+  from { height: 0; }
+  to { height: var(--radix-accordion-content-height); }
 `;
 
-const AnswerWrapper = styled.div<{ $open: boolean }>`
-  display: grid;
-  grid-template-rows: ${({ $open }) => ($open ? "1fr" : "0fr")};
-  transition: grid-template-rows 0.3s ease;
+const slideUp = keyframes`
+  from { height: var(--radix-accordion-content-height); }
+  to { height: 0; }
 `;
 
-const AnswerInner = styled.div`
+const Content = styled(Accordion.Content)`
   overflow: hidden;
+
+  &[data-state="open"] {
+    animation: ${slideDown} 0.25s ease;
+  }
+  &[data-state="closed"] {
+    animation: ${slideUp} 0.25s ease;
+  }
 `;
 
 const AnswerText = styled.p`
@@ -101,12 +125,6 @@ const AnswerText = styled.p`
 `;
 
 export default function FAQ() {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
-
-  function toggle(index: number) {
-    setOpenIndex((prev) => (prev === index ? null : index));
-  }
-
   return (
     <Wrapper id="faq">
       <ScrollReveal>
@@ -117,27 +135,20 @@ export default function FAQ() {
       </ScrollReveal>
 
       <ScrollReveal delay={0.1}>
-        <List>
-          {faqs.map((faq, index) => {
-            const isOpen = openIndex === index;
-            return (
-              <Item key={faq.question}>
-                <QuestionButton
-                  onClick={() => toggle(index)}
-                  aria-expanded={isOpen}
-                  aria-controls={`faq-answer-${index}`}
-                >
+        <List type="single" defaultValue="min-order" collapsible>
+          {faqs.map((faq) => (
+            <Item key={faq.id} value={faq.id}>
+              <Header>
+                <Trigger>
                   {faq.question}
-                  <ChevronIcon size={20} $open={isOpen} />
-                </QuestionButton>
-                <AnswerWrapper $open={isOpen} id={`faq-answer-${index}`}>
-                  <AnswerInner>
-                    <AnswerText>{faq.answer}</AnswerText>
-                  </AnswerInner>
-                </AnswerWrapper>
-              </Item>
-            );
-          })}
+                  <ChevronDown size={20} />
+                </Trigger>
+              </Header>
+              <Content>
+                <AnswerText>{faq.answer}</AnswerText>
+              </Content>
+            </Item>
+          ))}
         </List>
       </ScrollReveal>
     </Wrapper>
