@@ -137,10 +137,10 @@ export default function Hero() {
 
       <ImageCard>
         <Image
-          src="https://images.pexels.com/photos/8532616/pexels-photo-8532616.jpeg"
-          alt="Produto de merchandising em destaque"
+          src="https://images.pexels.com/photos/19810840/pexels-photo-19810840.jpeg"
+          alt="Detalhe de acabamento premium em produto personalizado"
           fill
-          sizes="(max-width: 860px) 100vw, 50vw"
+          sizes="(max-width: 860px) 100vw, 40vw"
           priority
         />
         <Tooltip label="Favoritar produto">

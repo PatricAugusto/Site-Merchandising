@@ -19,12 +19,12 @@ interface Product {
 }
 
 const products: Product[] = [
-  { name: "Camiseta Premium", category: "Vestuário", description: "Algodão penteado, estampa personalizada em silk ou DTF. Ideal para uniformes de eventos e brindes de alto contato.", image: "https://images.pexels.com/photos/8532616/pexels-photo-8532616.jpeg" },
-  { name: "Caderno Executivo", category: "Escritório", description: "Capa em couro sintético, gravação a laser da marca. Acompanha caneta personalizada opcional.", image: "https://images.pexels.com/photos/1083728/pexels-photo-1083728.jpeg" },
-  { name: "Caneca Térmica", category: "Brindes", description: "Aço inox, dupla parede, logo em UV de alta durabilidade. Mantém temperatura por até 6 horas.", image: "https://images.pexels.com/photos/19155039/pexels-photo-19155039.jpeg" },
-  { name: "Sacola Ecológica", category: "Ecobag", description: "Algodão cru, estampa em serigrafia, produção sustentável. Reforço nas alças para maior durabilidade.", image: "https://images.pexels.com/photos/1359854/pexels-photo-1359854.jpeg" },
-  { name: "Boné Aba Reta", category: "Vestuário", description: "Bordado 3D, ajuste em fivela metálica. Disponível em 5 cores de base.", image: "https://images.pexels.com/photos/8217483/pexels-photo-8217483.jpeg" },
-  { name: "Squeeze Personalizada", category: "Brindes", description: "Plástico livre de BPA, tampa com trava de segurança. Capacidade de 750ml.", image: "https://images.pexels.com/photos/8146451/pexels-photo-8146451.jpeg" },
+  { name: "Camiseta Premium", category: "Vestuário", description: "Algodão penteado, estampa personalizada em silk ou DTF.", image: "https://images.pexels.com/photos/8532616/pexels-photo-8532616.jpeg" },
+  { name: "Caderno Executivo", category: "Escritório", description: "Capa em couro sintético, gravação a laser da marca.", image: "https://images.pexels.com/photos/1083728/pexels-photo-1083728.jpeg" },
+  { name: "Caneca Térmica", category: "Brindes", description: "Aço inox, dupla parede, logo em UV de alta durabilidade.", image: "https://images.pexels.com/photos/2274257/pexels-photo-2274257.jpeg" },
+  { name: "Sacola Ecológica", category: "Ecobag", description: "Algodão cru, estampa em serigrafia, produção sustentável.", image: "https://images.pexels.com/photos/1359854/pexels-photo-1359854.jpeg" },
+  { name: "Boné Aba Reta", category: "Vestuário", description: "Bordado 3D, ajuste em fivela metálica.", image: "https://images.pexels.com/photos/8217483/pexels-photo-8217483.jpeg" },
+  { name: "Squeeze Personalizada", category: "Brindes", description: "Plástico livre de BPA, tampa com trava de segurança.", image: "https://images.pexels.com/photos/8146451/pexels-photo-8146451.jpeg" },
 ];
 
 const ProductsWrapper = styled.section`
