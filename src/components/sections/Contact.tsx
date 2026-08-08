@@ -15,6 +15,8 @@ const ContactWrapper = styled.section`
 
   @media (max-width: 860px) {
     grid-template-columns: 1fr;
+    padding: 4rem 1.25rem;
+    gap: 2rem;
   }
 `;
 
@@ -60,6 +62,9 @@ const InfoItem = styled.div`
   color: ${({ theme }) => theme.colors.text};
   font-size: 0.95rem;
 
+  word-break: break-word;
+  overflow-wrap: anywhere;
+
   svg {
     color: ${({ theme }) => theme.colors.primary};
     flex-shrink: 0;
@@ -76,6 +81,13 @@ const FormCard = styled.form`
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+  width: 100%;
+
+  @media (max-width: 480px) {
+    padding: 1.5rem;
+    border-radius: ${({ theme }) => theme.radii.md};
+    gap: 1rem;
+  }
 `;
 
 const Field = styled.div`
@@ -100,6 +112,7 @@ const inputStyles = `
 
 const Input = styled.input`
   ${inputStyles}
+  width: 100%;
   border: 1px solid ${({ theme }) => theme.colors.border};
   background: ${({ theme }) => theme.colors.backgroundAlt};
   color: ${({ theme }) => theme.colors.text};
@@ -112,11 +125,13 @@ const Input = styled.input`
 
 const TextArea = styled.textarea`
   ${inputStyles}
+  width: 100%;
   border: 1px solid ${({ theme }) => theme.colors.border};
   background: ${({ theme }) => theme.colors.backgroundAlt};
   color: ${({ theme }) => theme.colors.text};
   resize: vertical;
   min-height: 120px;
+  max-height: 280px;
 
   &:focus {
     outline: none;

@@ -13,6 +13,11 @@ export const GlobalStyle = createGlobalStyle`
     scroll-behavior: smooth;
   }
 
+  html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
   body {
     background-color: ${({ theme }) => theme.colors.background};
     color: ${({ theme }) => theme.colors.text};
@@ -27,5 +32,10 @@ export const GlobalStyle = createGlobalStyle`
   a {
     color: inherit;
     text-decoration: none;
+  }
+
+  img, svg {
+    max-width: 100%;
+    display: block;
   }
 `;
